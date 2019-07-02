@@ -1,7 +1,7 @@
 # Ninja Posts
 ---
 
-[React Native Web](https://github.com/necolas/react-native-web) works like some sort of *middleware* that makes React Native components compatible to the React DOM, which is normally needed for React-based Web applications. That said, *Ninja Posts* is a "React Native Web" application that also uses Redux as a state manager.
+[React Native Web](https://github.com/necolas/react-native-web) works like some sort of *middleware* that makes React Native components compatible to the React DOM, which is normally needed for React-based Web applications. That said, *Ninja Posts* is a "React Native Web" application that can also put a smile in your face.
 
 ## How to run it
 
