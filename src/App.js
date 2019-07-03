@@ -1,16 +1,5 @@
 import React, { Component } from 'react';
-
-import { 
-  Animated, 
-  Dimensions, 
-  ScrollView, 
-  StyleSheet, 
-  Text, 
-  TouchableOpacity, 
-  View,
-  FlatList
-} from 'react-native';
-
+import { Animated, Dimensions, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import './App.css';
 import PostCard from './components/PostCard';
 
@@ -22,17 +11,6 @@ class App extends Component {
       ninjaClickCount: 0,
       users: [],
       posts: [],
-      mock: [{
-        "userId": 1,
-        "id": 1,
-        "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-        "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-      },{
-        "userId": 1,
-        "id": 2,
-        "title": "qui est esse",
-        "body": "est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla"
-      }]
     }
   }
 
@@ -41,41 +19,36 @@ class App extends Component {
   }
   
   componentDidMount(){
-    //fetch user and post data
-    fetch('http://jsonplaceholder.typicode.com/posts')
-    .then(response => {
-      console.log(response);
-      return response.json();
-    })
-    .then(responseJson => {
-      this.setState({ posts : responseJson})
-    })
-
-    console.log('Posts in state:', this.state.posts)
     //animated API declaration
     Animated.timing(this.animatedValue, {
       toValue: 100,
       duration: 3000
     }).start();
+    //fetch user and post data
+    this.fetchPostsData()
+    this.fetchUsersData()
   }
 
-  fetchData(){
-    //posts  
-    
-    console.log('Users in state:', this.state.users)
+  fetchPostsData(){
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then(res => res.json())
+      .then(data => this.setState({ posts: data }));
   }
+
+  fetchUsersData(){
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then(res => res.json())
+      .then(data => this.setState({ users: data }));
+  }
+
 
   onNinjaPress = () => {
     this.setState(prevState => 
       ({ninjaClickCount: prevState.ninjaClickCount + 1})
     );
-    if(this.state.ninjaClickCount < 3){
+    if(this.state.ninjaClickCount < 1){
       this.setState({
         greeting: 'Exactly.'
-      });
-    } else if (this.state.ninjaClickCount < 6) {
-      this.setState({
-        greeting: 'You should stop now.'
       });
     } else {
       this.setState({
@@ -87,7 +60,7 @@ class App extends Component {
 
   render() {
     const {height, width} = Dimensions.get('window');
-    const {mock} = this.state
+    const {posts} = this.state
     const interpolateNinjaOpacity = this.animatedValue.interpolate({
       inputRange: [50,100],
       outputRange: [0, 1]
@@ -125,7 +98,7 @@ class App extends Component {
           <ScrollView>
             <FlatList
               style={{ marginTop: 20 }}
-              data={mock}
+              data={posts}
               numColumns={1}
               renderItem={({ item, index }) => (
                 <PostCard title={item.title} body={item.body}/>
