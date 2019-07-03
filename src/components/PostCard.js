@@ -2,9 +2,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-
-
-export default class PostCard extends Component {
+class PostCard extends Component {
 
   render() {
     const { body, title, onPress } = this.props;
@@ -67,3 +65,4 @@ const styles = StyleSheet.create({
   },
 });
 
+export default PostCard;

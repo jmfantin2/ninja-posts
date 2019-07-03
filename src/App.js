@@ -1,29 +1,19 @@
 import React, { Component } from 'react';
-import { Animated, Dimensions, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import './App.css';
+import { Dimensions, FlatList, ScrollView, StyleSheet, View } from 'react-native';
+import NinjaArea from './components/NinjaArea';
 import PostCard from './components/PostCard';
+import PostDisplay from './components/PostDisplay';
 
 class App extends Component {
   constructor(){
     super();
     this.state = {
-      greeting: 'Hey. What\'s up?',
-      ninjaClickCount: 0,
       users: [],
       posts: [],
     }
   }
-
-  componentWillMount(){
-    this.animatedValue = new Animated.Value(0);
-  }
   
   componentDidMount(){
-    //animated API declaration
-    Animated.timing(this.animatedValue, {
-      toValue: 100,
-      duration: 3000
-    }).start();
     //fetch user and post data
     this.fetchPostsData()
     this.fetchUsersData()
@@ -42,56 +32,16 @@ class App extends Component {
   }
 
 
-  onNinjaPress = () => {
-    this.setState(prevState => 
-      ({ninjaClickCount: prevState.ninjaClickCount + 1})
-    );
-    if(this.state.ninjaClickCount < 1){
-      this.setState({
-        greeting: 'Exactly.'
-      });
-    } else {
-      this.setState({
-        greeting: 'Uhh.. why don\'t you try clicking the buttons on your right?'
-      });
-    }
-  }
-
-
   render() {
     const {height, width} = Dimensions.get('window');
     const {posts} = this.state
-    const interpolateNinjaOpacity = this.animatedValue.interpolate({
-      inputRange: [50,100],
-      outputRange: [0, 1]
-    });
-
-    const animatedNinja = {
-      opacity: interpolateNinjaOpacity
-    }
 
     return(
       <View style={[custom.screen, {height: height, width: width}]}>
         
         <View style={custom.leftSection}>
-          <View style={[custom.ninjaArea]}>
-            <Animated.Text style={[custom.ninjaGreeting, animatedNinja]}>
-              {this.state.greeting}
-            </Animated.Text>
-            <View style={custom.ninjaSpot}>
-              <TouchableOpacity
-              onPress={this.onNinjaPress}>
-                <Animated.Image 
-                  source={require('./assets/ninja.png')} 
-                  style={[{width: 145, height: 81}, animatedNinja]}/>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={custom.postDisplay}>
-            <Text style={{color: 'white'}}>
-              Post info goes here.
-            </Text>
-          </View>
+          <NinjaArea/>
+          <PostDisplay/>
         </View>
         
         <View style={custom.rightSection}>
