@@ -6,5 +6,5 @@
 ## How to run it
 
 - Clone this repository.
-- Open a terminal in the project folder an run `yarn` so the dependencies will be installed.
+- Open a terminal in the project folder and run `yarn` so the dependencies will be installed.
 - After the previous step is done, run `yarn start` and a browser should automatically open the app.
