@@ -4,13 +4,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
 
-export default class CardSalaVotacao extends Component {
-  constructor(props) {
-    super(props)
-  }
+export default class PostCard extends Component {
 
   render() {
-    const { status, mensagem, titulo, onPress } = this.props;
+    const { body, title, onPress } = this.props;
     return (
       <TouchableOpacity
         activeOpacity={0.5}
@@ -21,10 +18,10 @@ export default class CardSalaVotacao extends Component {
             style={styles.content}>
             <View>
               <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail'>
-                {titulo}
+                {title}
               </Text>
-              <Text style={styles.subtitle} numberOfLines={1} ellipsizeMode='tail'>
-                {mensagem}
+              <Text style={styles.body} numberOfLines={1} ellipsizeMode='tail'>
+                {body}
               </Text>
             </View>
           </TouchableOpacity>
@@ -61,7 +58,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: "white",
   },
-  subtitle: {
+  body: {
     textAlign: 'left',
     fontSize: 17,
     fontWeight: 'normal',

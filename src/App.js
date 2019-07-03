@@ -1,13 +1,39 @@
 import React, { Component } from 'react';
-import { Animated, Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+import { 
+  Animated, 
+  Dimensions, 
+  ScrollView, 
+  StyleSheet, 
+  Text, 
+  TouchableOpacity, 
+  View,
+  FlatList
+} from 'react-native';
+
 import './App.css';
 import PostCard from './components/PostCard';
 
 class App extends Component {
-
-  state = {
-    greeting: 'Hey. What\'s up?',
-    ninjaClickCount: 0
+  constructor(){
+    super();
+    this.state = {
+      greeting: 'Hey. What\'s up?',
+      ninjaClickCount: 0,
+      users: [],
+      posts: [],
+      mock: [{
+        "userId": 1,
+        "id": 1,
+        "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+        "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
+      },{
+        "userId": 1,
+        "id": 2,
+        "title": "qui est esse",
+        "body": "est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla"
+      }]
+    }
   }
 
   componentWillMount(){
@@ -15,10 +41,28 @@ class App extends Component {
   }
   
   componentDidMount(){
+    //fetch user and post data
+    fetch('http://jsonplaceholder.typicode.com/posts')
+    .then(response => {
+      console.log(response);
+      return response.json();
+    })
+    .then(responseJson => {
+      this.setState({ posts : responseJson})
+    })
+
+    console.log('Posts in state:', this.state.posts)
+    //animated API declaration
     Animated.timing(this.animatedValue, {
       toValue: 100,
       duration: 3000
     }).start();
+  }
+
+  fetchData(){
+    //posts  
+    
+    console.log('Users in state:', this.state.users)
   }
 
   onNinjaPress = () => {
@@ -35,7 +79,7 @@ class App extends Component {
       });
     } else {
       this.setState({
-        greeting: 'Uhh.. why don\'t you try \nclicking the buttons on your right?'
+        greeting: 'Uhh.. why don\'t you try clicking the buttons on your right?'
       });
     }
   }
@@ -43,7 +87,7 @@ class App extends Component {
 
   render() {
     const {height, width} = Dimensions.get('window');
-
+    const {mock} = this.state
     const interpolateNinjaOpacity = this.animatedValue.interpolate({
       inputRange: [50,100],
       outputRange: [0, 1]
@@ -57,7 +101,7 @@ class App extends Component {
       <View style={[custom.screen, {height: height, width: width}]}>
         
         <View style={custom.leftSection}>
-          <View style={[custom.ninjaArea, animatedNinja]}>
+          <View style={[custom.ninjaArea]}>
             <Animated.Text style={[custom.ninjaGreeting, animatedNinja]}>
               {this.state.greeting}
             </Animated.Text>
@@ -79,20 +123,17 @@ class App extends Component {
         
         <View style={custom.rightSection}>
           <ScrollView>
-            <PostCard titulo={"Hardcoded"} mensagem={"Please Stand by"}/>
-            <PostCard titulo={"Hardcoded"} mensagem={"Please Stand by"}/>
-            <PostCard titulo={"Hardcoded"} mensagem={"Please Stand by"}/>
-            <PostCard titulo={"Hardcoded"} mensagem={"Please Stand by"}/>
-            <PostCard titulo={"Hardcoded"} mensagem={"Please Stand by"}/>
-            <PostCard titulo={"Hardcoded"} mensagem={"Please Stand by"}/>
-            <PostCard titulo={"Hardcoded"} mensagem={"Please Stand by"}/>
-            <PostCard titulo={"Hardcoded"} mensagem={"Please Stand by"}/>
-            <PostCard titulo={"Hardcoded"} mensagem={"Please Stand by"}/>
-            <PostCard titulo={"Hardcoded"} mensagem={"Please Stand by"}/>
-            <PostCard titulo={"Hardcoded"} mensagem={"Please Stand by"}/>
-            <PostCard titulo={"Hardcoded"} mensagem={"Please Stand by"}/>
-            <PostCard titulo={"Hardcoded"} mensagem={"Please Stand by"}/>
-            <PostCard titulo={"Hardcoded"} mensagem={"Please Stand by"}/>
+            <FlatList
+              style={{ marginTop: 20 }}
+              data={mock}
+              numColumns={1}
+              renderItem={({ item, index }) => (
+                <PostCard title={item.title} body={item.body}/>
+                //todo: onpress dessa coisa
+                //todo: limitar linhas
+              )}
+              keyExtractor={(item, index) => index.toString()}
+            />
           </ScrollView>
         </View>
 
