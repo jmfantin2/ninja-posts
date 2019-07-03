@@ -14,7 +14,6 @@ class App extends Component {
   }
   
   componentDidMount(){
-    //fetch user and post data
     this.fetchPostsData()
     this.fetchUsersData()
   }
@@ -30,7 +29,6 @@ class App extends Component {
       .then(res => res.json())
       .then(data => this.setState({ users: data }));
   }
-
 
   render() {
     const {height, width} = Dimensions.get('window');
@@ -53,7 +51,6 @@ class App extends Component {
               renderItem={({ item, index }) => (
                 <PostCard title={item.title} body={item.body}/>
                 //todo: onpress dessa coisa
-                //todo: limitar linhas
               )}
               keyExtractor={(item, index) => index.toString()}
             />
@@ -76,25 +73,6 @@ const custom = StyleSheet.create({
   },
   rightSection:{ 
     flex: 1,
-  },
-  ninjaArea:{
-    flex: 1,
-    flexDirection: 'row'
-  },
-  ninjaGreeting:{
-    flex: 3,
-    color: 'white',
-    padding: 10,
-    margin: 30,
-    borderRadius: 10,
-    fontSize: 20,
-    textAlign: 'right'
-  },
-  ninjaSpot:{
-    flex: 1
-  },
-  postDisplay:{
-    flex: 4
   }
 });
 

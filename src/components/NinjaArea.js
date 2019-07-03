@@ -28,7 +28,7 @@ class NinjaArea extends Component {
     );
     if(this.state.ninjaClickCount > 0){
       this.setState({
-        greeting: 'Uhh.. why don\'t you try clicking the buttons on your right?'
+        greeting: 'Uhh.. why don\'t you try and click the tiles on your right?'
       });
     } else {
       this.setState({
