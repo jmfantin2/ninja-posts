@@ -27,7 +27,7 @@ class NinjaArea extends Component {
     );
     if(this.state.ninjaClickCount > 1){
       this.setState({
-        greeting: 'When you are done editing a post, just click another one.'
+        greeting: 'When you are done editing a post, just press another one.'
       })
     } else if(this.state.ninjaClickCount > 0){
       this.setState({
@@ -35,7 +35,7 @@ class NinjaArea extends Component {
       });
     } else {
       this.setState({
-        greeting: 'Yea I know it lags a bit, but you get the idea.'
+        greeting: 'Yea, it lags a bit, but you get the idea.'
       });
     }
   }

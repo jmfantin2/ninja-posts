@@ -16,7 +16,7 @@ class App extends Component {
       currentTitle: 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
       currentBody: 'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto',
       userValue: '',
-      bodyValue: '',
+      bodyValue: '', 
       //PostCard attributes
       lastCardPressed: 1
     }
@@ -52,7 +52,7 @@ class App extends Component {
     if(itemId === this.state.lastCardPressed){
       return 
       //this statement prevents the method from running 
-      //if the user didn't click on a different card
+      //if the user didn't press a different card.
       //(I wanted the ninja to inform the user that he/she should choose another card)
       //(but i made him stateful, so I'm not gonna change it right now...)
     }
@@ -63,16 +63,16 @@ class App extends Component {
     const {users, posts} = this.state;
 
     //One information leads to another..
-    const clickedPost = _.filter(posts, { id: itemId });
-    const uid = clickedPost[0].userId;
-    const clickedPostAuthor = _.filter(users, { id: uid });
+    const pressedPost = _.filter(posts, { id: itemId });
+    const uid = pressedPost[0].userId;
+    const pressedPostAuthor = _.filter(users, { id: uid });
     
     //Wrap everything up, finally
     this.setState({
       lastCardPressed: itemId,
-      currentUser: clickedPostAuthor[0].name, 
-      currentBody: clickedPost[0].body, 
-      currentTitle: clickedPost[0].title
+      currentUser: pressedPostAuthor[0].name, 
+      currentBody: pressedPost[0].body, 
+      currentTitle: pressedPost[0].title
     });
   }
 
@@ -89,7 +89,7 @@ class App extends Component {
   }
 
   render() {
-    //I wanted to color the background, so I needed the window dimensions
+    //I wanted to color the background, so I needed the window dimensions.
     const {height, width} = Dimensions.get('window');
     const {posts} = this.state
 
