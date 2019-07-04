@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 const PostDisplay = (props) => {
@@ -9,14 +9,20 @@ const PostDisplay = (props) => {
           Author
         </Text>
         <TextInput
-          style={{height: 40, width: "100%", alignSelf: 'flex-end', textAlign :'right', fontSize: 20}}
+          style={custom.authorInput}
           onChangeText={props.handleUserChange}
           value={props.currentUser}
         />
       </View>
       <View style={custom.lowerSection}> 
+      <TextInput
+          style={[custom.postInput, {fontWeight:'bold'}]}
+          onChangeText={props.handleTitleChange}
+          value={props.currentTitle}
+          multiline={true}
+        />
         <TextInput
-          style={{height: "100%", width: "100%", fontSize: 20}}
+          style={custom.postInput}
           onChangeText={props.handleBodyChange}
           value={props.currentBody}
           multiline={true}
@@ -33,13 +39,11 @@ const custom = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     margin: 100,
-    minHeight: 85,
     justifyContent: 'space-between',
     backgroundColor: '#D1D4DC'
   },
   upperSection:{
     flex: 1,
-    alignItems: 'right'
   },
   lowerSection:{
     flex: 5,
@@ -47,17 +51,22 @@ const custom = StyleSheet.create({
   authorLabel:{
     alignSelf: 'flex-end',
     textAlign: 'center',
-    fontWeight: 'bold',
     fontSize: 18,
     color: '#23342B'
   },
-  postBody:{
-    textAlign: 'left',
-    fontSize: 17,
-    fontWeight: 'normal',
-    marginRight: 5,
-    marginTop: 10
+  authorInput:{
+    height: 40, 
+    width: "100%", 
+    alignSelf: 'flex-end', 
+    textAlign :'right', 
+    fontSize: 20, 
+    fontWeight: 'bold'
   },
+  postInput:{
+    height: "100%", 
+    width: "100%", 
+    fontSize: 20
+  }
 });
 
 export default PostDisplay;

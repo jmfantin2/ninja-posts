@@ -8,17 +8,17 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      //fetching
+      //Fetching
       users: [],
       posts: [],
-      //
-      //postdisplay things
+      //PostDisplay things
       currentUser: 'JM Fantin',
-      currentBody: 'Welcome to Ninja Posts! \n\nBuilding this code was kind of painful, but also fun. \nI feel like I\'ve learned a lot from this challenge, so thanks for that :)',
+      currentTitle: 'Welcome to Ninja Posts!',
+      currentBody: 'Building this code was kind of painful, but also fun. I feel like I\'ve learned a lot from this challenge, so thanks for that :)',
       userValue: '',
-      bodyValue: ''
-      //postcard things
-
+      bodyValue: '',
+      //PostCard things
+      lastClicked: -1
     }
   }
   
@@ -43,20 +43,30 @@ class App extends Component {
     this.setState({currentUser: e.value});
   }
 
+  handleTitleChange = (e) => {
+    this.setState({currentTitle: e.value});
+  }
+
   handleBodyChange = (e) => {
     this.setState({currentBody: e.value});
   }
   //POST DISPLAY
 
   updateDisplay(itemId){
+    this.setState({lastClicked: itemId})
     const _ = require('lodash');
     const {users, posts} = this.state;
     const clickedPost = _.filter(posts, { id: itemId });
-    console.log('BODY', clickedPost[0].body);
     const uid = clickedPost[0].userId;
     const clickedPostAuthor = _.filter(users, { id: uid });
-    console.log('AUTHOR', clickedPostAuthor[0].name)
-    this.setState({currentBody: clickedPost[0].body, currentUser: clickedPostAuthor[0].name});
+    console.log('AUTHOR:', clickedPostAuthor[0].name)
+    console.log('TITLE:', clickedPost[0].title);
+    console.log('BODY:', clickedPost[0].body);
+    this.setState({
+      currentUser: clickedPostAuthor[0].name, 
+      currentBody: clickedPost[0].body, 
+      currentTitle: clickedPost[0].title
+    });
   }
 
   render() {
@@ -69,9 +79,11 @@ class App extends Component {
         <View style={custom.leftSection}>
           <NinjaArea/>
           <PostDisplay
-            handleBodyChange={this.handleBodyChange.bind(this)}
             handleUserChange={this.handleUserChange.bind(this)}
+            handleTitleChange={this.handleTitleChange.bind(this)}
+            handleBodyChange={this.handleBodyChange.bind(this)}
             currentUser={this.state.currentUser}
+            currentTitle={this.state.currentTitle}
             currentBody={this.state.currentBody}
           />
         </View>
