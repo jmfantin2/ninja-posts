@@ -15,7 +15,6 @@ class NinjaArea extends Component {
   }
   
   componentDidMount(){
-    //animated API declaration
     Animated.timing(this.animatedValue, {
       toValue: 100,
       duration: 3000
@@ -26,13 +25,17 @@ class NinjaArea extends Component {
     this.setState(prevState => 
       ({ninjaClickCount: prevState.ninjaClickCount + 1})
     );
-    if(this.state.ninjaClickCount > 0){
+    if(this.state.ninjaClickCount > 1){
+      this.setState({
+        greeting: 'When you are done editing a post, just click another one.'
+      })
+    } else if(this.state.ninjaClickCount > 0){
       this.setState({
         greeting: 'Uhh.. why don\'t you try and click the tiles on your right?'
       });
     } else {
       this.setState({
-        greeting: 'Exactly.'
+        greeting: 'Yea I know it lags a bit, but you get the idea.'
       });
     }
   }

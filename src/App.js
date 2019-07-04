@@ -12,13 +12,13 @@ class App extends Component {
       users: [],
       posts: [],
       //PostDisplay attributes
-      currentUser: 'JM Fantin',
-      currentTitle: 'Welcome to Ninja Posts!',
-      currentBody: 'Building this code was kind of painful, but also fun. I feel like I\'ve learned a lot from this challenge, so thanks for that :)',
+      currentUser: 'Leanne Graham',
+      currentTitle: 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
+      currentBody: 'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto',
       userValue: '',
       bodyValue: '',
       //PostCard attributes
-      lastClicked: -1
+      lastCardPressed: 1
     }
   }
   
@@ -39,38 +39,63 @@ class App extends Component {
       .then(data => this.setState({ users: data }));
   }
   
-  handleTitleChange = (e) => {
-    this.setState({currentTitle: e.value});
+  handleTitleChange = (value) => {
+    this.setState({currentTitle: value});
   }
 
-  handleBodyChange = (e) => {
-    this.setState({currentBody: e.value});
+  handleBodyChange = (value) => {
+    this.setState({currentBody: value});
   }
 
+  //Sends the info which was previously displayed to its matching card 
   updateDisplay(itemId){
+    if(itemId === this.state.lastCardPressed){
+      return 
+      //this statement prevents the method from running 
+      //if the user didn't click on a different card
+      //(I wanted the ninja to inform the user that he/she should choose another card)
+      //(but i made him stateful, so I'm not gonna change it right now...)
+    }
+    this.applyPreviousChanges();
+
+    //The Lodash dependency allowed me to filter the arrays with ease.
     const _ = require('lodash');
     const {users, posts} = this.state;
+
+    //One information leads to another..
     const clickedPost = _.filter(posts, { id: itemId });
     const uid = clickedPost[0].userId;
     const clickedPostAuthor = _.filter(users, { id: uid });
-    console.log('AUTHOR:', clickedPostAuthor[0].name)
-    console.log('TITLE:', clickedPost[0].title);
-    console.log('BODY:', clickedPost[0].body);
+    
+    //Wrap everything up, finally
     this.setState({
-      lastClicked: itemId,
+      lastCardPressed: itemId,
       currentUser: clickedPostAuthor[0].name, 
       currentBody: clickedPost[0].body, 
       currentTitle: clickedPost[0].title
     });
   }
 
+  //Manipulates the posts JSON and updates a single entry, which is the previously edited post.
+  applyPreviousChanges(){
+    let postsClone = JSON.parse(JSON.stringify(this.state.posts))
+    //Here's something tricky: JSON indexing starts at 0, while the post IDs start at 1.
+    const newTitle = this.state.currentTitle
+    postsClone[this.state.lastCardPressed-1].title = newTitle;
+    const newBody = this.state.currentBody
+    postsClone[this.state.lastCardPressed-1].body = newBody;
+    //That's why I had to use lastCardPressed-1.
+    this.setState({posts: postsClone})
+  }
+
   render() {
+    //I wanted to color the background, so I needed the window dimensions
     const {height, width} = Dimensions.get('window');
     const {posts} = this.state
 
     return(
       <View style={[custom.screen, {height: height, width: width}]}>
-        
+
         <View style={custom.leftSection}>
           <NinjaArea/>
           <PostDisplay
@@ -92,7 +117,6 @@ class App extends Component {
                 <PostCard title={item.title} body={item.body}
                   onPress={this.updateDisplay.bind(this,item.id)}
                 />
-                //todo: onpress dessa coisa
               )}
               keyExtractor={(item, index) => index.toString()}
             />
