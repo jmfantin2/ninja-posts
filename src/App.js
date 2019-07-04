@@ -8,8 +8,16 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
+      //fetching and keeping
       users: [],
       posts: [],
+      //postdisplay things
+      currentUser: 'placeholder user',
+      currentBody: 'placeholder body',
+      userValue: '',
+      bodyValue: ''
+      //postcard things
+
     }
   }
   
@@ -29,6 +37,15 @@ class App extends Component {
       .then(res => res.json())
       .then(data => this.setState({ users: data }));
   }
+  //POST DISPLAY
+  handleUserChange = (e) => {
+    this.setState({currentUser: e.value});
+  }
+
+  handleBodyChange = (e) => {
+    this.setState({currentBody: e.value});
+  }
+  //POST DISPLAY
 
   render() {
     const {height, width} = Dimensions.get('window');
@@ -39,7 +56,12 @@ class App extends Component {
         
         <View style={custom.leftSection}>
           <NinjaArea/>
-          <PostDisplay/>
+          <PostDisplay
+            handleBodyChange={this.handleBodyChange.bind(this)}
+            handleUserChange={this.handleUserChange.bind(this)}
+            currentUser={this.state.currentUser}
+            currentBody={this.state.currentBody}
+          />
         </View>
         
         <View style={custom.rightSection}>
