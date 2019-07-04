@@ -1,7 +1,7 @@
 # Ninja Posts
 ---
 
-[React Native Web](https://github.com/necolas/react-native-web) works like some sort of *middleware* that makes React Native components compatible to the React DOM, which is normally needed for React-based Web applications. That said, *Ninja Posts* is a "React Native Web" application that can also put a smile in your face.
+[React Native Web](https://github.com/necolas/react-native-web) works like some sort of *middleware* that makes React Native components compatible to the React DOM. I chose this one over traditional React because it's more intuitive to me, considering I had very limited time to build this. That said, *Ninja Posts* is a "React Native Web" application.
 
 ## How to run it
 
