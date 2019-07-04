@@ -8,21 +8,19 @@ const PostDisplay = (props) => {
         <Text style={custom.authorLabel}>
           Author
         </Text>
-        <TextInput
-          style={custom.authorInput}
-          onChangeText={props.handleUserChange}
-          value={props.currentUser}
-        />
+        <Text style={custom.authorName}>
+          {props.currentUser}
+        </Text>
       </View>
       <View style={custom.lowerSection}> 
-      <TextInput
-          style={[custom.postInput, {fontWeight:'bold'}]}
+        <TextInput
+          style={[custom.postInput, {fontWeight:'bold', height:"20%"}]}
           onChangeText={props.handleTitleChange}
           value={props.currentTitle}
           multiline={true}
         />
         <TextInput
-          style={custom.postInput}
+          style={[custom.postInput, {height:"80%"}]}
           onChangeText={props.handleBodyChange}
           value={props.currentBody}
           multiline={true}
@@ -54,7 +52,7 @@ const custom = StyleSheet.create({
     fontSize: 18,
     color: '#23342B'
   },
-  authorInput:{
+  authorName:{
     height: 40, 
     width: "100%", 
     alignSelf: 'flex-end', 
@@ -63,7 +61,6 @@ const custom = StyleSheet.create({
     fontWeight: 'bold'
   },
   postInput:{
-    height: "100%", 
     width: "100%", 
     fontSize: 20
   }

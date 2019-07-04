@@ -8,16 +8,16 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      //Fetching
+      //JSON attributes
       users: [],
       posts: [],
-      //PostDisplay things
+      //PostDisplay attributes
       currentUser: 'JM Fantin',
       currentTitle: 'Welcome to Ninja Posts!',
       currentBody: 'Building this code was kind of painful, but also fun. I feel like I\'ve learned a lot from this challenge, so thanks for that :)',
       userValue: '',
       bodyValue: '',
-      //PostCard things
+      //PostCard attributes
       lastClicked: -1
     }
   }
@@ -38,11 +38,7 @@ class App extends Component {
       .then(res => res.json())
       .then(data => this.setState({ users: data }));
   }
-  //POST DISPLAY
-  handleUserChange = (e) => {
-    this.setState({currentUser: e.value});
-  }
-
+  
   handleTitleChange = (e) => {
     this.setState({currentTitle: e.value});
   }
@@ -50,10 +46,8 @@ class App extends Component {
   handleBodyChange = (e) => {
     this.setState({currentBody: e.value});
   }
-  //POST DISPLAY
 
   updateDisplay(itemId){
-    this.setState({lastClicked: itemId})
     const _ = require('lodash');
     const {users, posts} = this.state;
     const clickedPost = _.filter(posts, { id: itemId });
@@ -63,6 +57,7 @@ class App extends Component {
     console.log('TITLE:', clickedPost[0].title);
     console.log('BODY:', clickedPost[0].body);
     this.setState({
+      lastClicked: itemId,
       currentUser: clickedPostAuthor[0].name, 
       currentBody: clickedPost[0].body, 
       currentTitle: clickedPost[0].title
@@ -79,7 +74,6 @@ class App extends Component {
         <View style={custom.leftSection}>
           <NinjaArea/>
           <PostDisplay
-            handleUserChange={this.handleUserChange.bind(this)}
             handleTitleChange={this.handleTitleChange.bind(this)}
             handleBodyChange={this.handleBodyChange.bind(this)}
             currentUser={this.state.currentUser}
