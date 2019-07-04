@@ -8,12 +8,13 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      //fetching and keeping
+      //fetching
       users: [],
       posts: [],
+      //
       //postdisplay things
-      currentUser: 'placeholder user',
-      currentBody: 'placeholder body',
+      currentUser: 'JM Fantin',
+      currentBody: 'Welcome to Ninja Posts! \n\nBuilding this code was kind of painful, but also fun. \nI feel like I\'ve learned a lot from this challenge, so thanks for that :)',
       userValue: '',
       bodyValue: ''
       //postcard things
@@ -33,7 +34,7 @@ class App extends Component {
   }
 
   fetchUsersData(){
-    fetch('https://jsonplaceholder.typicode.com/posts')
+    fetch('https://jsonplaceholder.typicode.com/users')
       .then(res => res.json())
       .then(data => this.setState({ users: data }));
   }
@@ -46,6 +47,17 @@ class App extends Component {
     this.setState({currentBody: e.value});
   }
   //POST DISPLAY
+
+  updateDisplay(itemId){
+    const _ = require('lodash');
+    const {users, posts} = this.state;
+    const clickedPost = _.filter(posts, { id: itemId });
+    console.log('BODY', clickedPost[0].body);
+    const uid = clickedPost[0].userId;
+    const clickedPostAuthor = _.filter(users, { id: uid });
+    console.log('AUTHOR', clickedPostAuthor[0].name)
+    this.setState({currentBody: clickedPost[0].body, currentUser: clickedPostAuthor[0].name});
+  }
 
   render() {
     const {height, width} = Dimensions.get('window');
@@ -71,7 +83,9 @@ class App extends Component {
               data={posts}
               numColumns={1}
               renderItem={({ item, index }) => (
-                <PostCard title={item.title} body={item.body}/>
+                <PostCard title={item.title} body={item.body}
+                  onPress={this.updateDisplay.bind(this,item.id)}
+                />
                 //todo: onpress dessa coisa
               )}
               keyExtractor={(item, index) => index.toString()}
